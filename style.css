@@ -1,0 +1,19 @@
+*{
+  outline: dotted 1px red;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+
+/* === ^ general thematic styling above ^ === */
+
+/* === Specific Element/Class/Id Styling Below === */
+
+img {
+  width: 200px;
+  height: 200px;
+}
+
+li {
+  width:fit-content;
+}
