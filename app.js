@@ -6,7 +6,7 @@
 
 // TODO: [X] function randomly generates 3 unique product images 
 
-// TODO: [] attach event listener to ul in bottom section of HTML
+// TODO: [] attach event listener to <ul Id="choices">
 
 // TODO: [] when user clicks a product generate 3 new images. (event listener tied to this triggers)
 
@@ -25,7 +25,8 @@ function SurveyItems(product, imageUrl){
   this.product = product;  //works
   this.imageUrl = imageUrl; // works 
 
-  this.views;
+  this.views = 0;
+  this.clicks = 0;
   productList.push(this); // works
 }
 
@@ -59,6 +60,7 @@ function renderToPage(){
     var newDisplayContent = showRandom();
     var newDisplayEl = document.createElement('img');
     newDisplayEl.src = newDisplayContent.imageUrl;
+    newDisplayContent.views ++;
     targetDisplayParent.appendChild(newDisplayEl)[i];
     console.log('newDisplayContent: ', newDisplayContent);
     console.log('newDisplayEl: ' + newDisplayEl);
@@ -73,4 +75,27 @@ function renderToPage(){
   new SurveyItems('Cthulhu', 'images/cthulhu.jpg');
  renderToPage();
   
+//TODO: CHART CAN BE IMPLEMENTED AND RENDERED INDEPENDENT OF WEATHER OR NOT THE DATA ITSELF IS REFLECTED ON THE CHART. 
+//
   
+//========= Chart below ======//
+
+var ctx = document.getElementById('analytics').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data:/*dataPoints */ [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
