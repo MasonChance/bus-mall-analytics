@@ -1,23 +1,22 @@
 'use strict';
 
   //===== Constructor Function and Array to store Constructed Objects===///
-
-var productList = [];  //TODO: works but needs assignment to SurveyItemsConstructor.
-
+SurveyItems.productList = [];  //TODO: works but needs assignment to SurveyItemsConstructor.
+  
 function SurveyItems(product, imageUrl){
   this.product = product;  //works // used as object element(Id);
   this.imageUrl = imageUrl; // works 
   this.views = 0;
   this.clicks = 0;
   
-
-  productList.push(this); // works
+  
+  SurveyItems.productList.push(this); // works
 }
   
 //==== Call this in the prototype Function??? ===//
 function showRandom(){ 
-  var randomDisplay = Math.floor(Math.random() * productList.length);
-  var getItem = productList[randomDisplay];
+  var randomDisplay = Math.floor(Math.random() * SurveyItems.productList.length);
+  var getItem = SurveyItems.productList[randomDisplay];
 
   return getItem;   
 } 
@@ -26,8 +25,8 @@ function showRandom(){
 var totalClicks = 1;
 function census(e){
   var itemId = e.target.id;
-  for(var i = 0; i < productList.length; i++){
-    var name = productList[i];``
+  for(var i = 0; i < SurveyItems.productList.length; i++){
+    var name = SurveyItems.productList[i];``
     if(name.product === itemId){
       name.clicks ++;
     }
@@ -64,7 +63,6 @@ function renderToPage(){
 
   }    
 }
-
 //=== Tests ===  GlobalFunction Calls not called in otherPlaces. //
 new SurveyItems('Bag','images/bag.jpg');
 new SurveyItems('Bannana', 'images/banana.jpg');
@@ -83,8 +81,8 @@ function showResults(){
   var clickedCount = [];
   var viewCount = [];
   // function labelSet(){
-    for(var i = 0; i < productList.length; i++){
-      var itemSelection = productList[i];
+    for(var i = 0; i < SurveyItems.productList.length; i++){
+      var itemSelection = SurveyItems.productList[i];
       nameArray.push(itemSelection.product);
       clickedCount.push(itemSelection.clicks);
       // veiwCount.push(itemSelection.views);
