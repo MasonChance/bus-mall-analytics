@@ -1,20 +1,68 @@
 'use strict';
 
   //===== Constructor Function and Array to store Constructed Objects===///
-SurveyItems.productList = [];  //TODO: works but needs assignment to SurveyItemsConstructor.
+var lastItemsSeen = [];
+
+SurveyItems.productList = [];  
   
 function SurveyItems(product, imageUrl){
-  this.product = product;  //works // used as object element(Id);
-  this.imageUrl = imageUrl; // works 
+  this.product = product; // used as object element(Id);
+  this.imageUrl = imageUrl;
   this.views = 0;
   this.clicks = 0;
-  
-  
-  SurveyItems.productList.push(this); // works
+   
+  SurveyItems.productList.push(this); 
 }
   
 //==== Call this in the prototype Function??? ===//
-function showRandom(){ 
+
+function getRandomProducts(){
+  var threeProducts = [];
+  var secondOne = getOneProduct();
+
+  threeProducts.push(getOneProduct());
+
+  while(threeProducts[0] === secondOne || secondOne === lastItemsSeen[0] || secondOne === lastItemsSeen[1] || secondOne === lastItemsSeen[2]){
+    secondOne = getOneProduct();
+  }
+  var thirdOne = getOneProduct();
+  threeProducts.push(secondOne);
+
+  while(threeProducts[1] === thirdOne || threeProducts[0] === thirdOne){
+    thirdOne = getOneProduct();
+  }
+  threeProducts.push(thirdOne);
+
+  return threeProducts;
+}
+
+//==== validates items in display for the findThreeUniq function below it. ====
+function validateUnique(threeArray){
+  for(var i = 0; i < threeArray.length; i ++){
+    for(var v = 0; v < lastItemsSeen.length; v++){
+      if(threeArray[i].name === lastItemsSeen[v].name){
+        console.log('check failed regenerate threeArray');
+        return false;
+        
+        }
+      }
+    return true;
+  }
+}
+
+function findThreeUniq(){
+  do{
+    var threeArray = getRandomProducts();
+
+  } while(!validateUnique(threeArray))
+  console.log('My Feelings Are Valid!!!!');
+  lastItemsSeen = new Array(threeArray);
+  return threeArray;
+  
+}
+
+
+function getOneProduct(){ 
   var randomDisplay = Math.floor(Math.random() * SurveyItems.productList.length);
   var getItem = SurveyItems.productList[randomDisplay];
 
@@ -24,6 +72,7 @@ function showRandom(){
 // CallBack Function Below//
 var totalClicks = 1;
 function census(e){
+  console.log('totalClicks: ' + totalClicks);
   var itemId = e.target.id;
   for(var i = 0; i < SurveyItems.productList.length; i++){
     var name = SurveyItems.productList[i];``
@@ -49,16 +98,17 @@ function census(e){
 //=== ?? was there a way to make this a method??  || is it suposed to stand alone.  ===//
 function renderToPage(){
   var targetDisplayParent = document.getElementById('choices'); 
+  var newDisplayContent = findThreeUniq();
+  console.log('newDisplayContent: ', newDisplayContent);
   for(var i = 0; i <= 2; i++){
-    var newDisplayContent = showRandom();
     var newDisplayEl = document.createElement('img');
     var newLi = document.createElement('li');
-    newDisplayEl.src = newDisplayContent.imageUrl;
-    newDisplayEl.id = newDisplayContent.product;
+    newDisplayEl.src = newDisplayContent[i].imageUrl;
+    newDisplayEl.id = newDisplayContent[i].product;
     newLi.appendChild(newDisplayEl);
-    newDisplayContent.views ++;
+    newDisplayContent[i].views ++;
     targetDisplayParent.appendChild(newLi);
-    console.log('newDisplayContent: ', newDisplayContent);
+    console.log('newDisplayContent: ', newDisplayContent[i]);
     console.log('newDisplayEl: ' + newDisplayEl);
 
   }    
@@ -68,6 +118,11 @@ new SurveyItems('Bag','images/bag.jpg');
 new SurveyItems('Bannana', 'images/banana.jpg');
 new SurveyItems('Tauntaun', 'images/tauntaun.jpg');
 new SurveyItems('Cthulhu', 'images/cthulhu.jpg');
+new SurveyItems('Bathroom', 'images/bathroom.jpg');
+new SurveyItems('Boots', 'images/boots.jpg');
+new SurveyItems('Breakfast', 'images/breakfast.jpg');
+new SurveyItems('Bubblegum', 'images/bubblegum.jpg');
+new SurveyItems('Chair', 'images/chair.jpg');
 
 renderToPage();
 var targetArea = document.getElementById('choices');
@@ -115,6 +170,7 @@ function showResults(){
         }]
     },
     options: {
+        responsive: true,                
         scales: {
             yAxes: [{
                 ticks: {

@@ -19,3 +19,14 @@ img {
 li {
   width:fit-content;
 }
+/* canvas {
+ 
+} */
+
+.displays{
+  height: 70vh;
+  width: 40vw;
+  position: relative;
+
+
+}
