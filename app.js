@@ -14,7 +14,7 @@ function SurveyItems(product, imageUrl){
   SurveyItems.productList.push(this); 
 }
   
-//==== Call this in the prototype Function??? ===//
+// this populates the spread of choices for each instance the user is presented with choices.///
 
 function getRandomProducts(){
   var threeProducts = [];
@@ -36,15 +36,14 @@ function getRandomProducts(){
   return threeProducts;
 }
 
-//gets 3 unique items for instance of given spread, 
-//credit to Tyler Berger for help with array reference and the following validator.
+//gets 3 unique items compared to the last spread shown for each consecutive spread, 
+/*credit to Tyler Berger for help with array reference and the following validator.*/
 function findThreeUniq(){
   do{
     var threeArray = getRandomProducts();
 
   } while(!validateUnique(threeArray))
-  console.log('My Feelings Are Valid!!!!');
-  // lastItemsSeen = new Array(threeArray);
+
   lastItemsSeen = [...threeArray];
   return threeArray;
   
@@ -75,7 +74,7 @@ function getOneProduct(){
 // CallBack Function Below//
 var totalClicks = 1;
 function census(e){
-  console.log('totalClicks: ' + totalClicks);
+  
   var itemId = e.target.id;
   for(var i = 0; i < SurveyItems.productList.length; i++){
     var name = SurveyItems.productList[i];``
@@ -94,15 +93,18 @@ function census(e){
     thanks.textContent = 'Thank you for your feedback';
     getTarget.appendChild(thanks);
     showResults();
+    retrieveAddStore();
 
   }
+
+
 } 
 
 //renders the current selection of products returned from the `findThreeUniq()` function. 
 function renderToPage(){
   var targetDisplayParent = document.getElementById('choices'); 
   var newDisplayContent = findThreeUniq();
-  console.log('newDisplayContent: ', newDisplayContent);
+  
   for(var i = 0; i <= 2; i++){
     var newDisplayEl = document.createElement('img');
     var newLi = document.createElement('li');
@@ -111,9 +113,7 @@ function renderToPage(){
     newLi.appendChild(newDisplayEl);
     newDisplayContent[i].views ++;
     targetDisplayParent.appendChild(newLi);
-    console.log('newDisplayContent: ', newDisplayContent[i]);
-    console.log('newDisplayEl: ' + newDisplayEl);
-
+  
   }    
 }
 //=== Tests ===  GlobalFunction Calls not called in otherPlaces. //
@@ -132,6 +132,56 @@ renderToPage();
 // listener for the `census()` funtion above. 
 var targetArea = document.getElementById('choices');
 targetArea.addEventListener('click', census);
+
+/* TODO: store ea. ItemObject.clicks to local Storage
+   TODO: store ea. ItemObject.veiws to local Storage
+   
+   Objective. store total clicks for each sample group of 25. Reset the clicks and views counts per instance of a sample group; while maintaing a running count of the total clicks and views in Locale storage. retrieve these total values across all test groups (instance of 25) and display the overall data values for reference on a seperate chart from the one that displays individual test group results. 
+
+   TODO: CLICKS Count  one function. set as property of constructor. only job is to pull initial stored value, parseint(). add to current testGroup results for item, store back in local storage. iterate through all items. 
+
+   TODO: VIEWS: AS FOR CLICKS.  
+
+*/
+
+// ====CLICK STORING FUNCTION====//
+//============================// 
+//function below only needs to run if a product is addeded to the array this creates a localStorage key with a value of '0' to later be run when totaling test group results. //FIXME: consider how to tie to constructor but only triger for the object instantiation and not on page refresh or other events. consider that hoisting may provide a self contained solution. 
+
+// function createLocalKeys(){
+//   for(var i = 0; i < SurveyItems.productList.length; i ++){
+//    var extractedName = SurveyItems.productList[i].product;
+//    localStorage.setItem(extractedName, '0');
+//   }
+// }
+// //Call above function 
+// // createLocalKeys();
+
+//==== extract base value from local, add to current, store result in local. 
+function retrieveAddStore(){
+  for(var i = 0; i < SurveyItems.productList.length; i ++){
+    var storageKey = SurveyItems.productList[i].product;
+    var valueToAdd = SurveyItems.productList[i].clicks;
+    var storageValue = localStorage.getItem(storageKey);
+    var newTotal = (parseInt(storageValue)) + valueToAdd;
+    // var totalAsString = tostring(newTotal);
+    
+    
+  }
+  console.log('storageKey:', storageKey);
+  console.log('valueToAdd: ', valueToAdd);
+  console.log('storageValue: ', storageValue);
+  console.log('newTotal: ', newTotal);
+  // console.log('totalAsString: ' + totalAsString);
+
+  // localStorage.setItem(storageKey, totalAsString);
+}
+
+
+
+
+
+
    
 //========= Chart below ======//
 // change labels to items (by name) of product array. 
