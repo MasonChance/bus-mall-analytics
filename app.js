@@ -19,12 +19,12 @@ function SurveyItems(product, imageUrl){
 function getRandomProducts(){
   var threeProducts = [];
   var secondOne = getOneProduct();
-
   threeProducts.push(getOneProduct());
 
   while(threeProducts[0] === secondOne || secondOne === lastItemsSeen[0] || secondOne === lastItemsSeen[1] || secondOne === lastItemsSeen[2]){
     secondOne = getOneProduct();
   }
+
   var thirdOne = getOneProduct();
   threeProducts.push(secondOne);
 
@@ -36,11 +36,25 @@ function getRandomProducts(){
   return threeProducts;
 }
 
-//==== validates items in display for the findThreeUniq function below it. ====
+//gets 3 unique items for instance of given spread, 
+//credit to Tyler Berger for help with array reference and the following validator.
+function findThreeUniq(){
+  do{
+    var threeArray = getRandomProducts();
+
+  } while(!validateUnique(threeArray))
+  console.log('My Feelings Are Valid!!!!');
+  // lastItemsSeen = new Array(threeArray);
+  lastItemsSeen = [...threeArray];
+  return threeArray;
+  
+}
+
+//==== validates items in display for the findThreeUniq function above it. ====
 function validateUnique(threeArray){
   for(var i = 0; i < threeArray.length; i ++){
     for(var v = 0; v < lastItemsSeen.length; v++){
-      if(threeArray[i].name === lastItemsSeen[v].name){
+      if(threeArray[i].product === lastItemsSeen[v].product){
         console.log('check failed regenerate threeArray');
         return false;
         
@@ -50,18 +64,7 @@ function validateUnique(threeArray){
   }
 }
 
-function findThreeUniq(){
-  do{
-    var threeArray = getRandomProducts();
-
-  } while(!validateUnique(threeArray))
-  console.log('My Feelings Are Valid!!!!');
-  lastItemsSeen = new Array(threeArray);
-  return threeArray;
-  
-}
-
-
+//pulls random product from full list of products available stored in the: SurveyItems.productList[].
 function getOneProduct(){ 
   var randomDisplay = Math.floor(Math.random() * SurveyItems.productList.length);
   var getItem = SurveyItems.productList[randomDisplay];
@@ -81,7 +84,7 @@ function census(e){
     }
   }
   var getTarget = document.getElementById('choices');
-  if(totalClicks <= 4){
+  if(totalClicks <= 4){//TODO: when finished, change count to 25. 
     totalClicks++
     getTarget.innerHTML = '';
     renderToPage();
@@ -95,7 +98,7 @@ function census(e){
   }
 } 
 
-//=== ?? was there a way to make this a method??  || is it suposed to stand alone.  ===//
+//renders the current selection of products returned from the `findThreeUniq()` function. 
 function renderToPage(){
   var targetDisplayParent = document.getElementById('choices'); 
   var newDisplayContent = findThreeUniq();
@@ -125,11 +128,15 @@ new SurveyItems('Bubblegum', 'images/bubblegum.jpg');
 new SurveyItems('Chair', 'images/chair.jpg');
 
 renderToPage();
+
+// listener for the `census()` funtion above. 
 var targetArea = document.getElementById('choices');
 targetArea.addEventListener('click', census);
    
 //========= Chart below ======//
 // change labels to items (by name) of product array. 
+//TODO: Add DataSet for plotting Veiws as a lineGraph on the same chart. 
+
 function showResults(){
   var ctx = document.getElementById('analytics').getContext('2d');
   var nameArray = [];
@@ -143,7 +150,7 @@ function showResults(){
       // veiwCount.push(itemSelection.views);
     }
 
-  var clicksNviews = new Chart(ctx, {
+  new Chart(ctx, {
     type: 'bar',
     data: {
         labels: nameArray,
