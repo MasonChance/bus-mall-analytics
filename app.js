@@ -148,36 +148,37 @@ targetArea.addEventListener('click', census);
 //============================// 
 //function below only needs to run if a product is addeded to the array this creates a localStorage key with a value of '0' to later be run when totaling test group results. //FIXME: consider how to tie to constructor but only triger for the object instantiation and not on page refresh or other events. consider that hoisting may provide a self contained solution. 
 
-// function createLocalKeys(){
-//   for(var i = 0; i < SurveyItems.productList.length; i ++){
-//    var extractedName = SurveyItems.productList[i].product;
-//    localStorage.setItem(extractedName, '0');
-//   }
-// }
-// //Call above function 
-// // createLocalKeys();
+function createLocalKeys(){
+  for(var i = 0; i < SurveyItems.productList.length; i ++){
+   var extractedName = SurveyItems.productList[i].product;
+   localStorage.setItem(extractedName, '0');
+  }
+}
+//Call above function 
+createLocalKeys();
 
 //==== extract base value from local, add to current, store result in local. 
 function retrieveAddStore(){
   for(var i = 0; i < SurveyItems.productList.length; i ++){
     var storageKey = SurveyItems.productList[i].product;
     var valueToAdd = SurveyItems.productList[i].clicks;
-    var storageValue = localStorage.getItem(storageKey);
-    var newTotal = (parseInt(storageValue)) + valueToAdd;
-    // var totalAsString = tostring(newTotal);
-    
-    
+    var storedValueString = localStorage.getItem(storageKey);
+    var newTotal = JSON.parse(storedValueString); // typeof still returns value of string. seems to resist all forms of Type Coersion
+    // var totalAsString = newTotal.tostring;
+        // is this the use case for JSON.stringify????/JSON.Parse
   }
+  console.log(typeof storedValueString);
+  console.log(typeof valueToAdd);
   console.log('storageKey:', storageKey);
   console.log('valueToAdd: ', valueToAdd);
-  console.log('storageValue: ', storageValue);
+  console.log('storedValueString: ', storedValueString);
   console.log('newTotal: ', newTotal);
   // console.log('totalAsString: ' + totalAsString);
 
   // localStorage.setItem(storageKey, totalAsString);
 }
 
-
+retrieveAddStore();
 
 
 
