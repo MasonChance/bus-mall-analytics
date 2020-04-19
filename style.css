@@ -15,7 +15,24 @@ img {
   width: 200px;
   height: 200px;
 }
+ul {
+  height: 200px;
+  display: block;
+}
+
 
 li {
   width:fit-content;
+  float: left;
+}
+/* canvas {
+ 
+} */
+
+.displays{
+  height: 70vh;
+  width: 40vw;
+  position: relative;
+
+
 }
