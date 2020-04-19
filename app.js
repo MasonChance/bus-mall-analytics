@@ -85,22 +85,22 @@ function census(e){
   }
   var getTarget = document.getElementById('choices');
 
-  if(totalClicks <= 4){//TODO: when finished, change count to 25. 
+  if(totalClicks <= 25){
     totalClicks++
     getTarget.innerHTML = '';
     renderToPage();
-  } else if(totalClicks > 4){
+  } else if(totalClicks > 25){
     getTarget.innerHTML = '';
     var thanks = document.createElement('h1');
-    thanks.textContent = 'Thank you for your feedback';
+    thanks.textContent = 'Here are your results! The line points indicate how many times you clicked on an item; The bar Indicates how many times an item was shown to you. If you have any questions please feel free to contact us at the email listed below.';
     getTarget.appendChild(thanks);
     var testGroupResult = JSON.stringify(SurveyItems.productList);
     localStorage.setItem('productList',testGroupResult);
-    
+    targetArea.removeEventListener('click', census);
     trackResults();
-    retrieveAddStore();
-
+    
   }
+  retrieveAddStore();
 
 } 
 
@@ -130,6 +130,17 @@ new SurveyItems('Boots', 'images/boots.jpg');
 new SurveyItems('Breakfast', 'images/breakfast.jpg');
 new SurveyItems('Bubblegum', 'images/bubblegum.jpg');
 new SurveyItems('Chair', 'images/chair.jpg');
+new SurveyItems('Dog-Duck', 'images/dog-duck.jpg');
+new SurveyItems('Dragon', 'images/dragon.jpg');
+new SurveyItems('Pen', 'images/pen.jpg');
+new SurveyItems('Pet-sweep','images/pet-sweep.jpg');
+new SurveyItems('Scissors', 'images/scissors.jpg');
+new SurveyItems('Shark', 'images/shark.jpg');
+new SurveyItems('Sweep', 'images/sweep.png');
+new SurveyItems('Unicorn', 'images/unicorn.jpg');
+new SurveyItems('Usb', 'images/usb.gif');
+new SurveyItems('Water-Can', 'images/water-can.jpg');
+new SurveyItems('Wine-Glass', 'images/wine-glass.jpg');
 
 renderToPage();
 
@@ -137,26 +148,14 @@ renderToPage();
 var targetArea = document.getElementById('choices');
 targetArea.addEventListener('click', census);
 
-/*
-   
-   Objective. store total clicks for each sample group of 25. Reset the clicks and views counts per instance of a sample group; while maintaing a running count of the total clicks and views in Locale storage. retrieve these total values across all test groups (instance of 25) and display the overall data values for reference on a seperate chart from the one that displays individual test group results. 
-
-   TODO: CLICKS Count  one function. set as property of constructor. only job is to pull initial stored value, parseint(). add to current testGroup results for item, store back in local storage. iterate through all items. 
-
-
-*/
-
 // ==== TOTAL CLICK STORING FUNCTION====//
-
-
-
 //==== extract base value from local, add to current, store result in local. 
 function retrieveAddStore(){
   var updateStoredResults = [];
   // values retrieved from storage. 
   var lastGroupResults = JSON.parse(localStorage.getItem('productList'));
-  // values from current group results. 
   for(var i = 0; i < lastGroupResults.length; i++){
+    // values from current group results. 
     var currentResults = SurveyItems.productList;
     // sums clicks and veiws from last and current.
     var updateClickResult = (currentResults[i].clicks) + (lastGroupResults[i].clicks);
@@ -165,8 +164,8 @@ function retrieveAddStore(){
     var name = currentResults[i].product;
     var img = currentResults[i].imageUrl;
     updateStoredResults.push(
-      new SurveyItems(name, img, updateViewsResult, updateClickResult )
-    )
+      new SurveyItems(name, img, updateViewsResult, updateClickResult)
+    );
     
   }
   localStorage.setItem('productList', updateStoredResults);
@@ -193,7 +192,7 @@ function trackResults(){
     data: {
         labels: nameArray,
         datasets: [{
-            label: 'Times Clicked',
+            label: 'Times Viewed',
             data: viewCount,
             backgroundColor: [
               'rgba(255, 206, 86, 0.2)',
@@ -210,7 +209,12 @@ function trackResults(){
               'rgba(75, 192, 192, 0.2)',
               'rgba(255, 206, 86, 0.2)',
               'rgba(75, 192, 192, 0.2)',
-              'rgba(255, 206, 86, 0.2)'
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)'
             ],
             borderColor: [
               'rgba(255, 206, 86, 0.2)',
@@ -227,15 +231,19 @@ function trackResults(){
               'rgba(75, 192, 192, 0.2)',
               'rgba(255, 206, 86, 0.2)',
               'rgba(75, 192, 192, 0.2)',
-              'rgba(255, 206, 86, 0.2)'
-                
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)'
                 
             ],
             borderWidth: 1
             },{
             
               type: 'line',
-              label: 'viewCount',
+              label: 'Times Clicked',
               data: clickedCount,
               backgroundColor: [
                 'rgb(0, 216, 255)'
@@ -259,7 +267,12 @@ function trackResults(){
                 'rgb(229, 0, 255)',
                 'rgb(229, 0, 255)',
                 'rgb(229, 0, 255)',
+                'rgb(229, 0, 255)',
+                'rgb(229, 0, 255)',
+                'rgb(229, 0, 255)',
+                'rgb(229, 0, 255)',
                 'rgb(229, 0, 255)'
+              
               ],
               fill: false
               

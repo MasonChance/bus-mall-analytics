@@ -6,6 +6,59 @@
   overflow: visible;
 }
 
+body{
+  width: 95vw;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: moccasin;
+}
+
+header{
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+header h1{
+  font-size: 24pt;
+  font-weight: 500;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+header h2{
+  margin-top: 10px;
+  font-weight: 200;
+  font-style: italic;
+}
+
+main{
+  margin-top: 30px;
+  font-family: sans-serif;
+}
+
+main article h2{
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 900;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+main article p{
+  margin-top: 15px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+article{
+  margin-top: 30px;
+}
+
+
+
 
 /* === ^ general thematic styling above ^ === */
 
@@ -14,25 +67,44 @@
 img {
   width: 200px;
   height: 200px;
+  border: groove 5px mediumseagreen;
+
 }
 ul {
   height: 200px;
   display: block;
+  margin-top: 5vh;
 }
-
+ul:first-child{
+  margin-left: 6%;
+}
 
 li {
   width:fit-content;
   float: left;
+  margin-right: 3%;
 }
-/* canvas {
- 
-} */
+
+
 
 .displays{
   height: 70vh;
-  width: 40vw;
+  width: 80vw;
   position: relative;
+  margin-left: auto;
+  margin-right: auto;
 
+}
 
+footer{
+  height: 10vh;
+  border-top: groove 5px mediumseagreen;
+  margin-top: 30px;
+}
+
+footer p{
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 15px;
 }
